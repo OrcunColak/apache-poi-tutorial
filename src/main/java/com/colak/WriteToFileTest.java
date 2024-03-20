@@ -1,8 +1,6 @@
 package com.colak;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -18,7 +16,7 @@ import java.util.List;
 @Slf4j
 public class WriteToFileTest {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         // Creating a list of Order objects
         List<Order> orders = new ArrayList<>();
         orders.add(new Order(1L, "John Doe", LocalDateTime.now(), 100.0));
@@ -30,27 +28,12 @@ public class WriteToFileTest {
         generateReport(orders);
     }
 
-    private static void generateReport(List<Order> orders) {
+    private static void generateReport(List<Order> orders) throws IllegalAccessException {
         try (Workbook workbook = new XSSFWorkbook()) {
             Sheet sheet = workbook.createSheet("Order Report");
 
-            // Create header row
-            Row headerRow = sheet.createRow(0);
-            String[] columns = {"Order ID", "Customer Name", "Order Date", "Total Amount"};
-            for (int i = 0; i < columns.length; i++) {
-                Cell cell = headerRow.createCell(i);
-                cell.setCellValue(columns[i]);
-            }
-
-            // Populate data rows
-            int rowNum = 1;
-            for (Order order : orders) {
-                Row row = sheet.createRow(rowNum++);
-                row.createCell(0).setCellValue(order.getId());
-                row.createCell(1).setCellValue(order.getCustomerName());
-                row.createCell(2).setCellValue(order.getOrderDate().toString());
-                row.createCell(3).setCellValue(order.getTotalAmount());
-            }
+            ExcelExporter excelExporter = new ExcelExporter(sheet,orders);
+            excelExporter.export();
 
             // Write workbook to file
             Path path = Paths.get("order_report.xlsx");

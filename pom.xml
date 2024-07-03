@@ -19,14 +19,14 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.30</version>
+            <version>1.18.34</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.5.2</version>
+            <version>1.5.6</version>
         </dependency>
 
         <dependency>
@@ -35,6 +35,8 @@
             <version>2.23.1</version>
         </dependency>
 
+        <!-- This dependency adds support for the newer XML-based Excel file formats (.xlsx).
+        It is necessary for working with modern Excel files created by Microsoft Office 2007 and later. -->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
@@ -42,5 +44,6 @@
         </dependency>
 
     </dependencies>
+
 
 </project>
